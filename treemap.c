@@ -130,10 +130,6 @@ void removeNode(TreeMap * tree, TreeNode* node) {
                 node->parent->right = node->right;
                 node->right->parent = node->parent;
             }
-            free(node->pair->key);
-            free(node->pair->value);
-            free(node->pair);
-            free(node);
             tree->current = aux;
         }
     }
