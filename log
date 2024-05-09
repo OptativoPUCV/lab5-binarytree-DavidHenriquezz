@@ -78,3 +78,15 @@ Thu 09 May 2024 01:38:03 AM UTC:
  1 file changed, 3 deletions(-)
  tests:  0|0
 cf3733c
+Thu 09 May 2024 01:53:06 AM UTC: 
+ treemap.c | 74 ++++++++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 38 insertions(+), 36 deletions(-)
+In file included from test.c:4:
+treemap.c:142:6: error: redefinition of ‘removeNode’
+  142 | void removeNode(TreeMap * tree, TreeNode* node) {
+      |      ^~~~~~~~~~
+treemap.c:94:6: note: previous definition of ‘removeNode’ with type ‘void(TreeMap *, TreeNode *)’
+   94 | void removeNode(TreeMap * tree, TreeNode* node) {
+      |      ^~~~~~~~~~
+Compilation failed
+c35edf9

@@ -91,7 +91,54 @@ TreeNode * minimum(TreeNode * x){
     return x;
 }
 
-/*
+void removeNode(TreeMap * tree, TreeNode* node) {
+    TreeNode *temp = tree->root;
+    TreeNode *parent = NULL;
+
+    while(temp != NULL && temp != node){
+        parent = temp;
+        
+        if(tree->lower_than(node->pair->key, temp->pair->key) == 1){
+            temp = temp->left;
+        }
+        else{
+            temp = temp->right;
+        }
+    }
+    if(temp == NULL){
+        return;
+    }
+    if(temp->left == NULL && temp->right == NULL){
+        if (parent != tree->root){
+            if (parent->left == temp)
+                parent->left = NULL;
+            else
+                parent->right = NULL;
+        } else{
+            tree->root = NULL;
+            free(temp);
+        }
+    }
+    else if(temp->left == NULL || temp->right == NULL){
+        TreeNode * child;
+        if (temp->left != NULL)
+            child = temp->left;
+        else
+            child = temp->right;
+        if (temp != tree->root){
+            if (parent->left == temp)
+                parent->left = child;
+            else
+                parent->right = child;
+        }else{
+            tree->root = child;
+            
+        }
+        free(temp);
+    }
+    
+}
+
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (tree == NULL || node == NULL) return;
     if (node->left == NULL && node->right == NULL){
@@ -129,51 +176,7 @@ void removeNode(TreeMap * tree, TreeNode* node) {
         }
     }
 }
-*/
-void removeNode(TreeMap * tree, TreeNode* node) {
-    if (tree == NULL || node == NULL) return;
-    if (node->left == NULL && node->right == NULL){
-        if (node->parent == NULL){
-            tree->root = NULL;
-        }
-        else{
-            if (node->parent->left == node){
-                node->parent->left = NULL;
-            }
-            else{
-                node->parent->right = NULL;
-            }
-        }
-        free(node->pair->key);
-        free(node->pair->value);
-        free(node->pair);
-        free(node);
-    }
-    else{
-        if (node->right != NULL){
-            TreeNode * min = minimum(node->right);
-            node->pair->key = strdup(min->pair->key);
-            node->pair->value = strdup(min->pair->value);
-            removeNode(tree, min);
-        }
-        else{
-            TreeNode * aux = node->parent;
-            if (node->parent->left == node){
-                node->parent->left = node->left;
-                node->left->parent = node->parent;
-            }
-            else{
-                node->parent->right = node->right;
-                node->right->parent = node->parent;
-            }
-            free(node->pair->key);
-            free(node->pair->value);
-            free(node->pair);
-            free(node);
-            tree->current = aux;
-        }
-    }
-}
+
 
 void eraseTreeMap(TreeMap * tree, void* key){
     if (tree == NULL || tree->root == NULL) return;
