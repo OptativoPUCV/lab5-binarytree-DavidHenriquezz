@@ -42,3 +42,29 @@ Thu 09 May 2024 01:37:04 AM UTC:
  1 file changed, 1 insertion(+), 6 deletions(-)
  tests:  0|0
 9c5a752
+Thu 09 May 2024 01:37:43 AM UTC: 
+ treemap.c | 50 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 49 insertions(+), 1 deletion(-)
+In file included from test.c:4:
+treemap.c: In function ‘removeNode’:
+treemap.c:158:31: error: implicit declaration of function ‘_strdup’; did you mean ‘strdup’? [-Werror=implicit-function-declaration]
+  158 |             node->pair->key = _strdup(min->pair->key);
+      |                               ^~~~~~~
+      |                               strdup
+treemap.c:158:29: error: assignment to ‘void *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+  158 |             node->pair->key = _strdup(min->pair->key);
+      |                             ^
+treemap.c:159:31: error: assignment to ‘void *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+  159 |             node->pair->value = _strdup(min->pair->value);
+      |                               ^
+test.c: At top level:
+test.c:6:8: error: conflicting types for ‘_strdup’; have ‘char *(const char *)’
+    6 | char * _strdup(const char * str) {
+      |        ^~~~~~~
+In file included from test.c:4:
+treemap.c:158:31: note: previous implicit declaration of ‘_strdup’ with type ‘int()’
+  158 |             node->pair->key = _strdup(min->pair->key);
+      |                               ^~~~~~~
+cc1: all warnings being treated as errors
+Compilation failed
+f2a2453
