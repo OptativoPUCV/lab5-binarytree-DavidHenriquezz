@@ -107,12 +107,17 @@ void removeNode(TreeMap * tree, TreeNode* node) {
             }
         }
         free(node->pair->key);
+        free(node->pair->value);
+        free(node->pair);
+        free(node);
     }
     else{
         if (node->right != NULL){
             TreeNode * min = minimum(node->right);
-            node->pair->key = min->pair->key;
-            node->pair->value = min->pair->value;
+            free(node->pair->key);
+            free(node->pair->value);
+            node->pair->key = strdup(min->pair->key);
+            node->pair->value = strdup(min->pair->value);
             removeNode(tree, min);
         }
         else{
