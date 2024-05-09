@@ -91,58 +91,6 @@ TreeNode * minimum(TreeNode * x){
     return x;
 }
 
-void removeNode(TreeMap *tree, TreeNode *node) {
-    if (tree == NULL || node == NULL) {
-        return; // Handle NULL tree or node
-    }
-
-    TreeNode *parent = NULL;
-    TreeNode *current = tree->root;
-
-    // Find the node to be removed and its parent
-    while (current != NULL && current != node) {
-        parent = current;
-        if (tree->lower_than(node->pair->key, current->pair->key)) {
-            current = current->left;
-        } else {
-            current = current->right;
-        }
-    }
-
-    if (current == NULL) {
-        return; // Node not found
-    }
-
-    // Case 1: Node has no children
-    if (current->left == NULL && current->right == NULL) {
-        if (parent != NULL) {
-            if (parent->left == current) {
-                parent->left = NULL;
-            } else {
-                parent->right = NULL;
-            }
-        } else {
-            tree->root = NULL;
-        }
-        free(current);
-    }
-    // Case 2: Node has one child
-    else if (current->left == NULL || current->right == NULL) {
-        TreeNode *child = (current->left != NULL) ? current->left : current->right;
-        if (parent != NULL) {
-            if (parent->left == current) {
-                parent->left = child;
-            } else {
-                parent->right = child;
-            }
-        } else {
-            tree->root = child;
-        }
-        free(current);
-    }
-}
-
-/*
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (tree == NULL || node == NULL) return;
     if (node->left == NULL && node->right == NULL){
@@ -181,7 +129,6 @@ void removeNode(TreeMap * tree, TreeNode* node) {
     }
 }
 
-*/
 void eraseTreeMap(TreeMap * tree, void* key){
     /*
     if (tree == NULL || tree->root == NULL) return;
@@ -224,5 +171,22 @@ Pair * firstTreeMap(TreeMap * tree) {
 }
 
 Pair * nextTreeMap(TreeMap * tree) {
-    return NULL;
+    if(tree == NULL || tree->root == NULL)return NULL;
+    TreeNode * aux = tree->current;
+    if (aux->right != NULL){
+        tree->current = minimum(aux->right);
+        return tree->current->pair;
+    }
+    else{
+        while(aux->parent != NULL && aux->parent->right == aux){
+            aux = aux->parent;
+        }
+        tree->current = aux->parent;
+        if (tree->current != NULL){
+            return tree->current->pair;
+        }
+        else{
+            return NULL;
+        }
+    }
 }
