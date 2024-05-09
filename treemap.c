@@ -140,25 +140,6 @@ void removeNode(TreeMap *tree, TreeNode *node) {
         }
         free(current);
     }
-    // Case 3: Node has two children
-    else {
-        TreeNode *successor = findSuccessor(current->right);
-        TreeNode *successorParent = current;
-
-        while (successor->left != NULL) {
-            successorParent = successor;
-            successor = successor->left;
-        }
-
-        if (successorParent != current) {
-            successorParent->left = successor->right;
-        } else {
-            successorParent->right = successor->right;
-        }
-
-        current->pair = successor->pair; // Replace current node with its successor
-        free(successor);
-    }
 }
 
 /*

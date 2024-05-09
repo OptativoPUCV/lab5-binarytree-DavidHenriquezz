@@ -119,3 +119,9 @@ treemap.c:145:31: error: initialization of ‘TreeNode *’ from ‘int’ makes
 cc1: all warnings being treated as errors
 Compilation failed
 40aa2ec
+Thu 09 May 2024 02:00:03 AM UTC: 
+ treemap.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
+ tests:  15|4
+total_score: 25/70
+d2d8fff
