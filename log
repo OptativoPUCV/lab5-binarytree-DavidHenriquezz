@@ -107,3 +107,15 @@ Thu 09 May 2024 01:54:22 AM UTC:
  tests:  15|4
 total_score: 25/70
 b18c995
+Thu 09 May 2024 01:59:46 AM UTC: 
+ treemap.c | 81 ++++++++++++++++++++++++++++++++++++++++-----------------------
+ 1 file changed, 52 insertions(+), 29 deletions(-)
+In file included from test.c:4:
+treemap.c: In function ‘removeNode’:
+treemap.c:145:31: error: implicit declaration of function ‘findSuccessor’ [-Werror=implicit-function-declaration]
+  145 |         TreeNode *successor = findSuccessor(current->right);
+      |                               ^~~~~~~~~~~~~
+treemap.c:145:31: error: initialization of ‘TreeNode *’ from ‘int’ makes pointer from integer without a cast [-Werror=int-conversion]
+cc1: all warnings being treated as errors
+Compilation failed
+40aa2ec

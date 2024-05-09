@@ -90,55 +90,78 @@ TreeNode * minimum(TreeNode * x){
     }
     return x;
 }
-/*
-void removeNode(TreeMap * tree, TreeNode* node) {
-    TreeNode *temp = tree->root;
-    TreeNode *parent = NULL;
 
-    while(temp != NULL && temp != node){
-        parent = temp;
-        
-        if(tree->lower_than(node->pair->key, temp->pair->key) == 1){
-            temp = temp->left;
-        }
-        else{
-            temp = temp->right;
+void removeNode(TreeMap *tree, TreeNode *node) {
+    if (tree == NULL || node == NULL) {
+        return; // Handle NULL tree or node
+    }
+
+    TreeNode *parent = NULL;
+    TreeNode *current = tree->root;
+
+    // Find the node to be removed and its parent
+    while (current != NULL && current != node) {
+        parent = current;
+        if (tree->lower_than(node->pair->key, current->pair->key)) {
+            current = current->left;
+        } else {
+            current = current->right;
         }
     }
-    if(temp == NULL){
-        return;
+
+    if (current == NULL) {
+        return; // Node not found
     }
-    if(temp->left == NULL && temp->right == NULL){
-        if (parent != tree->root){
-            if (parent->left == temp)
+
+    // Case 1: Node has no children
+    if (current->left == NULL && current->right == NULL) {
+        if (parent != NULL) {
+            if (parent->left == current) {
                 parent->left = NULL;
-            else
+            } else {
                 parent->right = NULL;
-        } else{
+            }
+        } else {
             tree->root = NULL;
-            free(temp);
         }
+        free(current);
     }
-    else if(temp->left == NULL || temp->right == NULL){
-        TreeNode * child;
-        if (temp->left != NULL)
-            child = temp->left;
-        else
-            child = temp->right;
-        if (temp != tree->root){
-            if (parent->left == temp)
+    // Case 2: Node has one child
+    else if (current->left == NULL || current->right == NULL) {
+        TreeNode *child = (current->left != NULL) ? current->left : current->right;
+        if (parent != NULL) {
+            if (parent->left == current) {
                 parent->left = child;
-            else
+            } else {
                 parent->right = child;
-        }else{
+            }
+        } else {
             tree->root = child;
-            
         }
-        free(temp);
+        free(current);
     }
-    
+    // Case 3: Node has two children
+    else {
+        TreeNode *successor = findSuccessor(current->right);
+        TreeNode *successorParent = current;
+
+        while (successor->left != NULL) {
+            successorParent = successor;
+            successor = successor->left;
+        }
+
+        if (successorParent != current) {
+            successorParent->left = successor->right;
+        } else {
+            successorParent->right = successor->right;
+        }
+
+        current->pair = successor->pair; // Replace current node with its successor
+        free(successor);
+    }
 }
-*/
+
+/*
 void removeNode(TreeMap * tree, TreeNode* node) {
     if (tree == NULL || node == NULL) return;
     if (node->left == NULL && node->right == NULL){
@@ -177,7 +200,7 @@ void removeNode(TreeMap * tree, TreeNode* node) {
     }
 }
 
-
+*/
 void eraseTreeMap(TreeMap * tree, void* key){
     /*
     if (tree == NULL || tree->root == NULL) return;
